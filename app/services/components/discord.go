@@ -86,7 +86,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	var fields []Field
 	workField := Field{
 		Name:   "Workflow",
-		Value:  fmt.Sprintf("[%s](<%s/%s/actions/workflows/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
+		Value:  fmt.Sprintf("[%s](<%s/%s/actions/runs/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
 		Inline: true,
 	}
 	repoField := Field{
@@ -108,7 +108,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		}
 	} else {
 		eveField = Field{
-			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName),
+			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
 			Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubActionsCommitMsg),
 			Inline: false,
 		}
