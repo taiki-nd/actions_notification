@@ -63,6 +63,12 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	discordComponent.DiscordReq.AvatarURL = ""
 	discordComponent.DiscordReq.Content = ""
 
+	// actionsのsteps内にエラーがある場合は赤色にする
+	color := "255"
+	if actionsInfo.GithubActionsStatus == "failure" {
+		color = "16711680"
+	}
+
 	var embeds Embeds
 	embeds.Title = actionsInfo.GithubWorkflow
 	embeds.Description = fmt.Sprintf("[workflow URL](<%s/%s/actions/runs/%s>)", actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId)
