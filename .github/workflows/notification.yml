@@ -11,16 +11,19 @@ jobs:
         run: echo "INPUT_WEBHOOK=${{ secrets.WEBHOOK_URL }}" >> $GITHUB_ENV
 
       - name: Run action
-        run: go run cmd/main.go cicd
+        run: go run cmd/main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          GITHUB_ACTIONS_STATUS: ${{ job.status }}
 
       - name: force failure
         run: exit 1
+        # エラーとはしない
+        continue-on-error: true
 
       - name: Run action
         if: Always()
-        run: go run cmd/main.go cicd
+        run: go run cmd/main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_ACTIONS_STATUS: ${{ job.status }}
