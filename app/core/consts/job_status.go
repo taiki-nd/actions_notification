@@ -37,3 +37,16 @@ func (j *JobStatus) Value() string {
 func (j *JobStatus) UPPERValue() string {
 	return strings.ToUpper(j.Status)
 }
+
+func (j *JobStatus) IconValue() string {
+	if j.IsSuccess() {
+		return "✅"
+	}
+	if j.IsFailure() {
+		return "❌"
+	}
+	if j.IsCancelled() {
+		return "❕"
+	}
+	return ""
+}

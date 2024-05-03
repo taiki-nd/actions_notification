@@ -63,7 +63,8 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		color = "16711680"
 	}
 	if actionsInfo.GithubActionsStatus.IsSuccess() {
-		color = "255"
+		// 緑
+		color = "65280"
 	}
 	if actionsInfo.GithubActionsStatus.IsCancelled() {
 		color = "16776960"
@@ -76,13 +77,18 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	discordComponent.DiscordReq.Content = ""
 
 	var embeds Embeds
-	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubActionsStatus.UPPERValue(), actionsInfo.GithubWorkflow)
-	embeds.Description = fmt.Sprintf("[workflow URL](<%s/%s/actions/runs/%s>)", actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId)
+	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubActionsStatus.IconValue(), actionsInfo.GithubRepository)
+	embeds.Description = fmt.Sprintf("by %s", actionsInfo.GithubActor)
 	embeds.Timestamp = time.Now()
 	embeds.Color = color
 	discordComponent.DiscordReq.Embeds = append(discordComponent.DiscordReq.Embeds, embeds)
 
 	var fields []Field
+	workField := Field{
+		Name:   "Workflow",
+		Value:  fmt.Sprintf("[%s](<%s/%s/actions/workflows/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
+		Inline: true,
+	}
 	repoField := Field{
 		Name:   "Repository",
 		Value:  fmt.Sprintf("[%s](<%s/%s>)", actionsInfo.GithubRepository, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository),
@@ -93,19 +99,23 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		Value:  actionsInfo.GithubBranch,
 		Inline: true,
 	}
-	triField := Field{
-		Name:   "Trigger",
-		Value:  actionsInfo.GithubActor,
-		Inline: true,
+	var eveField Field
+	if actionsInfo.GithubEventName.IsPullRequest() {
+		eveField = Field{
+			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
+			Value:  fmt.Sprintf("PR URL: [%s](<%s>)", actionsInfo.GitHubActionsPrTitle, actionsInfo.GitHubActionsPrUrl),
+			Inline: false,
+		}
+	} else {
+		eveField = Field{
+			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName),
+			Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubActionsCommitMsg),
+			Inline: false,
+		}
 	}
-	eveField := Field{
-		Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName),
-		Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubActionsCommitMsg),
-		Inline: false,
-	}
+	fields = append(fields, workField)
 	fields = append(fields, repoField)
 	fields = append(fields, braField)
-	fields = append(fields, triField)
 	fields = append(fields, eveField)
 	discordComponent.DiscordReq.Embeds[0].Fields = fields
 }

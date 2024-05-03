@@ -19,18 +19,12 @@ func main() {
 		env = v
 	}
 
-	if env == "local" {
-		err := app.InitAppOnLocal()
-		if err != nil {
-			os.Exit(1)
-		}
-	} else {
-		err := app.InitApp()
-		if err != nil {
-			os.Exit(1)
-		}
+	err := app.InitApp(env)
+	if err != nil {
+		os.Exit(1)
 	}
-	err := services.SendMessage()
+
+	err = services.SendMessage()
 	if err != nil {
 		os.Exit(1)
 	}

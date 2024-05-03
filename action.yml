@@ -6,14 +6,6 @@ inputs:
   webhook:
     description: "Discord webhook endpoint."
     required: true
-  status:
-    description: "Job status. Should be bound to job.status. Default to success."
-    required: false
-    default: ${{ job.status }}
-  commit_message:
-    description: "Commit message. Should be bound to github.event.commits[0].message."
-    required: false
-    default: ${{ github.event.commits[0].message }}
 
 runs:
   using: "composite"
@@ -21,5 +13,7 @@ runs:
     - run: go run cmd/main.go
       env:
         WEBHOOK_URL: ${{ inputs.webhook }}
-        GITHUB_ACTIONS_STATUS: ${{ inputs.status }}
+        GITHUB_ACTIONS_STATUS: ${{ job.status }}
         GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        GITHUB_ACTIONS_PR_TITLE: ${{ github.event.pull_request.title }}
+        GITHUB_ACTIONS_PR_URL: ${{ github.event.pull_request.html_url }}

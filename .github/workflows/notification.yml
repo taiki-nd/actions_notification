@@ -15,21 +15,27 @@ jobs:
         run: go run cmd/main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          GITHUB_ACTIONS_STATUS: ${{ job.status }}
-          GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          GITHUB_STATUS: ${{ job.status }}
+          GITHUB_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          GITHUB_PR_TITLE: ${{ github.event.pull_request.title }}
+          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
 
       - name: Run action
         if: Always()
         run: go run cmd/main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          GITHUB_ACTIONS_STATUS: "failure"
-          GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          GITHUB_STATUS: "failure"
+          GITHUB_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          GITHUB_PR_TITLE: ${{ github.event.pull_request.title }}
+          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
 
       - name: Run action
         if: Always()
         run: go run cmd/main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          GITHUB_ACTIONS_STATUS: "cancelled"
-          GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          GITHUB_STATUS: "cancelled"
+          GITHUB_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          GITHUB_PR_TITLE: ${{ github.event.pull_request.title }}
+          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
