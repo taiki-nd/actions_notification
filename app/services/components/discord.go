@@ -86,7 +86,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	var fields []Field
 	workField := Field{
 		Name:   "Workflow",
-		Value:  fmt.Sprintf("[%s](<%s/%s/actions/workflows/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
+		Value:  fmt.Sprintf("[%s](<%s/%s/actions/run/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
 		Inline: true,
 	}
 	repoField := Field{
