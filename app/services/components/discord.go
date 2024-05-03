@@ -63,7 +63,6 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		color = "16711680"
 	}
 	if actionsInfo.GithubActionsStatus.IsSuccess() {
-		// 緑
 		color = "65280"
 	}
 	if actionsInfo.GithubActionsStatus.IsCancelled() {
@@ -72,7 +71,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 
 	// set discord request
 	discordComponent.WebhookUrl = DiscordClient.WebhookUrl
-	discordComponent.DiscordReq.Username = "ActionsNotification"
+	discordComponent.DiscordReq.Username = actionsInfo.GithubRepository
 	discordComponent.DiscordReq.AvatarURL = ""
 	discordComponent.DiscordReq.Content = ""
 
