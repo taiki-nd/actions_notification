@@ -31,6 +31,19 @@ func InitApp() error {
 	branch := os.Getenv("GITHUB_REF")
 	runId := os.Getenv("GITHUB_RUN_ID")
 	severUrl := os.Getenv("GITHUB_SERVER_URL")
+
+	fmt.Println("webhookUrl: ", webhookUrl)
+	fmt.Println("repo: ", repo)
+	fmt.Println("sha: ", sha)
+	fmt.Println("ref: ", ref)
+	fmt.Println("actor: ", actor)
+	fmt.Println("workflow: ", workflow)
+	fmt.Println("eventName: ", eventName)
+	fmt.Println("workSpace: ", workSpace)
+	fmt.Println("branch: ", branch)
+	fmt.Println("runId: ", runId)
+	fmt.Println("severUrl: ", severUrl)
+
 	messengerType := ""
 	if strings.Contains(webhookUrl, "discord") {
 		messengerType = "discord"
