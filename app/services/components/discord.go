@@ -64,7 +64,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	if actionsInfo.GithubActionsStatus.IsSuccess() {
 		color = "255"
 	}
-	if actionsInfo.GithubActionsStatus.IsCancel() {
+	if actionsInfo.GithubActionsStatus.IsCancelled() {
 		color = "16776960"
 	}
 

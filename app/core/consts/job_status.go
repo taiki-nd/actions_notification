@@ -5,7 +5,7 @@ import "strings"
 const (
 	JobStatusSuccess = "success"
 	JobStatusFailure = "failure"
-	JobStatusCancel  = "cancel"
+	JobStatusCancel  = "cancelled"
 )
 
 type JobStatus struct {
@@ -26,7 +26,7 @@ func (j *JobStatus) IsFailure() bool {
 	return j.Status == JobStatusFailure
 }
 
-func (j *JobStatus) IsCancel() bool {
+func (j *JobStatus) IsCancelled() bool {
 	return j.Status == JobStatusCancel
 }
 
