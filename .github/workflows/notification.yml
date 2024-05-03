@@ -1,4 +1,4 @@
-name: 動作テスト
+name: Actions Notification Test
 on: [pull_request, push]
 
 jobs:
@@ -11,4 +11,4 @@ jobs:
       - name: docker build
         run: docker build -t notification .
       - name: docker run
-        run: docker run notification
+        run: docker run -e INPUT_WEBHOOK=$INPUT_WEBHOOK notification

@@ -18,7 +18,7 @@ func InitApp() error {
 	// get params
 	webhookUrl := os.Getenv("INPUT_WEBHOOK")
 	if webhookUrl == "" {
-		fmt.Println("No webhook URL provided")
+		fmt.Println("webhook URL is required. Please set webhook URL.")
 		os.Exit(1)
 	}
 	repo := os.Getenv("GITHUB_REPOSITORY")
