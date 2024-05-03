@@ -2,7 +2,7 @@ name: Actions Notification Test
 on: [pull_request, push]
 
 jobs:
-  build:
+  actions-notification-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
           echo "Server URL: $GITHUB_SERVER_URL"
       - name: Setup environment
         run: echo "INPUT_WEBHOOK=${{ secrets.WEBHOOK_URL }}" >> $GITHUB_ENV
-      - name: docker build
-        run: docker build -t notification .
-      - name: docker run
-        run: docker run -e INPUT_WEBHOOK=$INPUT_WEBHOOK notification
+      - name: Run action
+        run: go run cmd/main.go
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}

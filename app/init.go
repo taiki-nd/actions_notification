@@ -16,7 +16,7 @@ var MessageApp string
 
 func InitApp() error {
 	// get params
-	webhookUrl := os.Getenv("INPUT_WEBHOOK")
+	webhookUrl := os.Getenv("WEBHOOK_URL")
 	if webhookUrl == "" {
 		fmt.Println("webhook URL is required. Please set webhook URL.")
 		os.Exit(1)
