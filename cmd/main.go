@@ -22,11 +22,6 @@ func main() {
 	if env == "local" {
 		err := app.InitAppOnLocal()
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		err = services.SendMessage()
-		if err != nil {
 			os.Exit(1)
 		}
 	} else {
@@ -34,9 +29,9 @@ func main() {
 		if err != nil {
 			os.Exit(1)
 		}
-		err = services.SendMessage()
-		if err != nil {
-			os.Exit(1)
-		}
+	}
+	err := services.SendMessage()
+	if err != nil {
+		os.Exit(1)
 	}
 }

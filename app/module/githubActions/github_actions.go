@@ -1,5 +1,7 @@
 package githubActions
 
+import "actionsnotification/app/core/consts"
+
 type GithubActionsClient struct {
 	GithubRepository    string
 	GithubSha           string
@@ -11,10 +13,11 @@ type GithubActionsClient struct {
 	GithubBranch        string
 	GithubRunId         string
 	GithubServerUrl     string
-	GithubActionsStatus string
+	GithubActionsStatus consts.JobStatus
 }
 
 func NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, severUrl, status string) *GithubActionsClient {
+	jobStatus := consts.NewJobStatus(status)
 	return &GithubActionsClient{
 		GithubRepository:    repo,
 		GithubSha:           sha,
@@ -26,6 +29,6 @@ func NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, bra
 		GithubBranch:        branch,
 		GithubRunId:         runId,
 		GithubServerUrl:     severUrl,
-		GithubActionsStatus: status,
+		GithubActionsStatus: *jobStatus,
 	}
 }

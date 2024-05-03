@@ -57,20 +57,25 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	actionsInfo := GithubActions.GetGithubActionsInfo()
 	pp.Println(actionsInfo)
 
+	var color string
+	if actionsInfo.GithubActionsStatus.IsFailure() {
+		color = "16711680"
+	}
+	if actionsInfo.GithubActionsStatus.IsSuccess() {
+		color = "255"
+	}
+	if actionsInfo.GithubActionsStatus.IsCancel() {
+		color = "16776960"
+	}
+
 	// set discord request
 	discordComponent.WebhookUrl = DiscordClient.WebhookUrl
 	discordComponent.DiscordReq.Username = "ActionsNotification"
 	discordComponent.DiscordReq.AvatarURL = ""
 	discordComponent.DiscordReq.Content = ""
 
-	// actionsのsteps内にエラーがある場合は赤色にする
-	color := "255"
-	if actionsInfo.GithubActionsStatus == "failure" {
-		color = "16711680"
-	}
-
 	var embeds Embeds
-	embeds.Title = actionsInfo.GithubWorkflow
+	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubActionsStatus.UPPERValue(), actionsInfo.GithubWorkflow)
 	embeds.Description = fmt.Sprintf("[workflow URL](<%s/%s/actions/runs/%s>)", actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId)
 	embeds.Timestamp = time.Now()
 	embeds.Color = color
