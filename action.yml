@@ -1,0 +1,9 @@
+name: "Actions Notification with Go"
+description: "Send status notifications to messaging platforms like Discord, Slack, etc."
+inputs:
+  webhook:
+    description: "webhook URL"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
