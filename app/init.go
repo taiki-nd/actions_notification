@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/k0kubun/pp/v3"
 )
 
 var MessageApp string
@@ -82,6 +84,8 @@ func InitApp(env string) error {
 		components.SlackClient = slack.NewSlack(webhook)
 	}
 	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl)
+
+	pp.Println(components.GithubActionsClient)
 
 	return nil
 }
