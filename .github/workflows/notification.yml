@@ -23,3 +23,10 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_ACTIONS_STATUS: "failure"
+
+      - name: Run action
+        if: Always()
+        run: go run cmd/main.go
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          GITHUB_ACTIONS_STATUS: "cancelled"
