@@ -2,6 +2,7 @@ package components
 
 import (
 	"actionsnotification/app/module/discord"
+	"actionsnotification/app/module/utils"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -98,8 +99,8 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		Inline: true,
 	}
 	eveField := Field{
-		Name:   "Event",
-		Value:  actionsInfo.GithubEventName,
+		Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName),
+		Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubActionsCommitMsg),
 		Inline: false,
 	}
 	fields = append(fields, repoField)

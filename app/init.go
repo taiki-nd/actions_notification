@@ -31,21 +31,10 @@ func InitApp() error {
 	branch := os.Getenv("GITHUB_REF")
 	runId := os.Getenv("GITHUB_RUN_ID")
 	severUrl := os.Getenv("GITHUB_SERVER_URL")
+	commitMsg := os.Getenv("GITHUB_ACTIONS_COMMIT_MESSAGE")
 
 	// github actions statusを取得
 	status := os.Getenv("GITHUB_ACTIONS_STATUS")
-
-	fmt.Println("webhookUrl: ", webhookUrl)
-	fmt.Println("repo: ", repo)
-	fmt.Println("sha: ", sha)
-	fmt.Println("ref: ", ref)
-	fmt.Println("actor: ", actor)
-	fmt.Println("workflow: ", workflow)
-	fmt.Println("eventName: ", eventName)
-	fmt.Println("workSpace: ", workSpace)
-	fmt.Println("branch: ", branch)
-	fmt.Println("runId: ", runId)
-	fmt.Println("severUrl: ", severUrl)
 
 	messengerType := ""
 	if strings.Contains(webhookUrl, "discord") {
@@ -65,7 +54,7 @@ func InitApp() error {
 	if messengerType == "slack" {
 		components.SlackClient = slack.NewSlack(webhookUrl)
 	}
-	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, severUrl, status)
+	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, severUrl, status, commitMsg)
 
 	return nil
 }
@@ -83,6 +72,7 @@ type Env struct {
 	RunID          string `json:"GITHUB_RUN_ID"`
 	ServerURL      string `json:"GITHUB_SERVER_URL"`
 	Status         string `json:"GITHUB_ACTIONS_STATUS"`
+	CommitMsg      string `json:"GITHUB_ACTIONS_COMMIT_MESSAGE"`
 }
 
 func InitAppOnLocal() error {
@@ -109,10 +99,11 @@ func InitAppOnLocal() error {
 	runId := env.RunID
 	serverUrl := env.ServerURL
 	status := env.Status
+	commitMsg := env.CommitMsg
 
 	config.GlobalConfig = config.NewConfig("discord")
 	components.DiscordClient = discord.NewDiscord(discordWebhook)
-	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status)
+	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg)
 
 	return nil
 }

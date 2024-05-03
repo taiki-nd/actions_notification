@@ -10,6 +10,10 @@ inputs:
     description: "Job status. Should be bound to job.status. Default to success."
     required: false
     default: ${{ job.status }}
+  commit_message:
+    description: "Commit message. Should be bound to github.event.commits[0].message."
+    required: false
+    default: ${{ github.event.commits[0].message }}
 
 runs:
   using: "composite"
@@ -18,3 +22,4 @@ runs:
       env:
         WEBHOOK_URL: ${{ inputs.webhook }}
         GITHUB_ACTIONS_STATUS: ${{ inputs.status }}
+        GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ inputs.commit_message }}

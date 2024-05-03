@@ -16,6 +16,7 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_ACTIONS_STATUS: ${{ job.status }}
+          GITHUB_ACTIONS_EVENT: ${{ github.event.commits[0].message }}
 
       - name: Run action
         if: Always()
@@ -23,6 +24,7 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_ACTIONS_STATUS: "failure"
+          GITHUB_ACTIONS_EVENT: ${{ github.event.commits[0].message }}
 
       - name: Run action
         if: Always()
@@ -30,3 +32,4 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_ACTIONS_STATUS: "cancelled"
+          GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
