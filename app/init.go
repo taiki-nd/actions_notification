@@ -31,6 +31,7 @@ func InitApp() error {
 	branch := os.Getenv("GITHUB_REF")
 	runId := os.Getenv("GITHUB_RUN_ID")
 	severUrl := os.Getenv("GITHUB_SERVER_URL")
+	status := os.Getenv("GITHUB_ACTIONS_STATUS")
 
 	fmt.Println("webhookUrl: ", webhookUrl)
 	fmt.Println("repo: ", repo)
@@ -62,7 +63,7 @@ func InitApp() error {
 	if messengerType == "slack" {
 		components.SlackClient = slack.NewSlack(webhookUrl)
 	}
-	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, severUrl)
+	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, severUrl, status)
 
 	return nil
 }
@@ -79,6 +80,7 @@ type Env struct {
 	Branch         string `json:"GITHUB_BRANCH"`
 	RunID          string `json:"GITHUB_RUN_ID"`
 	ServerURL      string `json:"GITHUB_SERVER_URL"`
+	Status         string `json:"GITHUB_ACTIONS_STATUS"`
 }
 
 func InitAppOnLocal() error {
@@ -104,10 +106,11 @@ func InitAppOnLocal() error {
 	branch := env.Branch
 	runId := env.RunID
 	serverUrl := env.ServerURL
+	status := env.Status
 
 	config.GlobalConfig = config.NewConfig("discord")
 	components.DiscordClient = discord.NewDiscord(discordWebhook)
-	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl)
+	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status)
 
 	return nil
 }

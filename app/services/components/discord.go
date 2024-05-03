@@ -73,7 +73,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	embeds.Title = actionsInfo.GithubWorkflow
 	embeds.Description = fmt.Sprintf("[workflow URL](<%s/%s/actions/runs/%s>)", actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId)
 	embeds.Timestamp = time.Now()
-	embeds.Color = "255"
+	embeds.Color = color
 	discordComponent.DiscordReq.Embeds = append(discordComponent.DiscordReq.Embeds, embeds)
 
 	var fields []Field
