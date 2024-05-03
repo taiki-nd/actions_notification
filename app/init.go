@@ -31,6 +31,8 @@ func InitApp() error {
 	branch := os.Getenv("GITHUB_REF")
 	runId := os.Getenv("GITHUB_RUN_ID")
 	severUrl := os.Getenv("GITHUB_SERVER_URL")
+
+	// github actions statusを取得
 	status := os.Getenv("GITHUB_ACTIONS_STATUS")
 
 	fmt.Println("webhookUrl: ", webhookUrl)

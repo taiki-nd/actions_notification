@@ -14,16 +14,3 @@ jobs:
         run: go run cmd/main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-
-  actions-notification-test-2:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup environment
-        run: echo "INPUT_WEBHOOK=${{ secrets.WEBHOOK_URL }}" >> $GITHUB_ENV
-
-      - name: Run action
-        run: go run cmd/main.go
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
