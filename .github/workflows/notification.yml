@@ -11,34 +11,13 @@ jobs:
           go-version: 1.22
 
       - name: Setup environment
-        run: echo "INPUT_WEBHOOK=${{ secrets.WEBHOOK_URL }}" >> $GITHUB_ENV
+        run: |
+          echo "WEBHOOK_URL=${{ secrets.WEBHOOK_URL }}" >> $GITHUB_ENV
+          echo "GITHUB_STATUS=${{ job.status }}" >> $GITHUB_ENV
+          echo "GITHUB_COMMIT_MESSAGE=${{ github.event.commits[0].message }}" >> $GITHUB_ENV
+          echo "GITHUB_PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+          echo "GITHUB_PR_URL=${{ github.event.pull_request.html_url }}" >> $GITHUB_ENV
 
       - name: Run action
         if: Always()
         run: go run main.go
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          GITHUB_STATUS: ${{ job.status }}
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
-          GITHUB_PR_TITLE: ${{ github.event.pull_request.title }}
-          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
-
-      - name: Run action
-        if: Always()
-        run: go run main.go
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          GITHUB_STATUS: "failure"
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
-          GITHUB_PR_TITLE: ${{ github.event.pull_request.title }}
-          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
-
-      - name: Run action
-        if: Always()
-        run: go run main.go
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          GITHUB_STATUS: "cancelled"
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
-          GITHUB_PR_TITLE: ${{ github.event.pull_request.title }}
-          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
