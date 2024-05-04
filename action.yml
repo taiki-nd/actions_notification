@@ -25,16 +25,12 @@ runs:
         echo "${{ github.action_path }}"
       shell: bash
 
-    - name: pwd
-      run: pwd
-      shell: bash
-
-    - name: ls
-      run: ls -la
-      shell: bash
-
-    - name: Download go mod
-      run: go mod download
+    - name: Move to action directory and check
+      run: |
+        cd ${{ github.action_path }}
+        pwd
+        ls -la
+        go mod download
       shell: bash
 
     - name: Run action
