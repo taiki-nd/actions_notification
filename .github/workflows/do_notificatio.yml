@@ -16,6 +16,6 @@ jobs:
 
       - name: Run action
         if: Always()
-        uses: taiki-nd/actions_notification@v0.0.12
+        uses: taiki-nd/actions_notification@v0.0.14
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
