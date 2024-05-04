@@ -15,6 +15,6 @@ runs:
       env:
         WEBHOOK_URL: ${{ inputs.webhook }}
         GITHUB_ACTIONS_STATUS: ${{ job.status }}
-        GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
         GITHUB_ACTIONS_PR_TITLE: ${{ github.event.pull_request.title }}
         GITHUB_ACTIONS_PR_URL: ${{ github.event.pull_request.html_url }}
