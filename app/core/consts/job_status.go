@@ -40,13 +40,13 @@ func (j *JobStatus) UPPERValue() string {
 
 func (j *JobStatus) IconValue() string {
 	if j.IsSuccess() {
-		return "✅"
+		return ":white_check_mark:"
 	}
 	if j.IsFailure() {
-		return "❌"
+		return ":x:"
 	}
 	if j.IsCancelled() {
-		return "❕"
+		return ":warning:"
 	}
 	return ""
 }
