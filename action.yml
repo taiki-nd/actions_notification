@@ -8,31 +8,11 @@ inputs:
     required: true
 
 runs:
-  using: "composite"
-  steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-go@v3
-      with:
-        go-version: 1.22
-
-    - name: pwd
-      run: pwd
-      shell: bash
-
-    - name: ls
-      run: ls -la
-      shell: bash
-
-    - name: Download go mod
-      run: go mod download
-      shell: bash
-
-    - name: Run action
-      run: go run ${{ github.action_path }}/main.go
-      shell: bash
-      env:
-        WEBHOOK_URL: ${{ inputs.webhook }}
-        GITHUB_ACTIONS_STATUS: ${{ job.status }}
-        GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
-        GITHUB_ACTIONS_PR_TITLE: ${{ github.event.pull_request.title }}
-        GITHUB_ACTIONS_PR_URL: ${{ github.event.pull_request.html_url }}
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    WEBHOOK_URL: ${{ inputs.webhook }}
+    GITHUB_ACTIONS_STATUS: ${{ job.status }}
+    GITHUB_ACTIONS_COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+    GITHUB_ACTIONS_PR_TITLE: ${{ github.event.pull_request.title }}
+    GITHUB_ACTIONS_PR_URL: ${{ github.event.pull_request.html_url }}
