@@ -102,7 +102,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	if actionsInfo.GithubEventName.IsPullRequest() {
 		eveField = Field{
 			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
-			Value:  fmt.Sprintf("PR URL: [%s](<%s>)\n`%s` -> `%s`", actionsInfo.GitHubPrTitle, actionsInfo.GitHubPrUrl, actionsInfo.GitHubBaseRef, actionsInfo.GitHubHeadRef),
+			Value:  fmt.Sprintf("PR URL: [%s](<%s>)\n`%s` <- `%s`", actionsInfo.GitHubPrTitle, actionsInfo.GitHubPrUrl, actionsInfo.GitHubBaseRef, actionsInfo.GitHubHeadRef),
 			Inline: false,
 		}
 	} else {
