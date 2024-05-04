@@ -59,13 +59,13 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	pp.Println(actionsInfo)
 
 	var color string
-	if actionsInfo.GithubActionsStatus.IsFailure() {
+	if actionsInfo.GithubJobStatus.IsFailure() {
 		color = "16711680"
 	}
-	if actionsInfo.GithubActionsStatus.IsSuccess() {
+	if actionsInfo.GithubJobStatus.IsSuccess() {
 		color = "65280"
 	}
-	if actionsInfo.GithubActionsStatus.IsCancelled() {
+	if actionsInfo.GithubJobStatus.IsCancelled() {
 		color = "16776960"
 	}
 
@@ -76,7 +76,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	discordComponent.DiscordReq.Content = ""
 
 	var embeds Embeds
-	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubActionsStatus.IconValue(), actionsInfo.GithubRepository)
+	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubJobStatus.IconValue(), actionsInfo.GithubRepository)
 	embeds.Description = fmt.Sprintf("by %s", actionsInfo.GithubActor)
 	embeds.Timestamp = time.Now()
 	embeds.Color = color
@@ -102,13 +102,13 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	if actionsInfo.GithubEventName.IsPullRequest() {
 		eveField = Field{
 			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
-			Value:  fmt.Sprintf("PR URL: [%s](<%s>)", actionsInfo.GitHubActionsPrTitle, actionsInfo.GitHubActionsPrUrl),
+			Value:  fmt.Sprintf("PR URL: [%s](<%s>)\n`%s` -> `%s`", actionsInfo.GitHubPrTitle, actionsInfo.GitHubPrUrl, actionsInfo.GitHubBaseRef, actionsInfo.GitHubHeadRef),
 			Inline: false,
 		}
 	} else {
 		eveField = Field{
 			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
-			Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubActionsCommitMsg),
+			Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubCommitMsg),
 			Inline: false,
 		}
 	}

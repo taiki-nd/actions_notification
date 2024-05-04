@@ -30,14 +30,16 @@ type GitHubActionsParam struct {
 	CommitMsg  string `json:"GITHUB_COMMIT_MESSAGE"`
 	PrTitle    string `json:"GITHUB_PR_TITLE"`
 	PrUrl      string `json:"GITHUB_PR_URL"`
+	BaseRef    string `json:"GITHUB_BASE_REF"`
+	HeadRef    string `json:"GITHUB_HEAD_REF"`
 }
 
 func InitApp(env string) error {
 	var err error
 	// get params
-	var webhook, repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl string
+	var webhook, repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, baseRef, headRef string
 	if env == "local" {
-		webhook, repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, err = LoadParamsFromJson()
+		webhook, repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, baseRef, headRef, err = LoadParamsFromJson()
 		if err != nil {
 			return err
 		}
@@ -61,6 +63,8 @@ func InitApp(env string) error {
 		commitMsg = os.Getenv("GITHUB_COMMIT_MESSAGE")
 		prTitle = os.Getenv("GITHUB_PR_TITLE")
 		prUrl = os.Getenv("GITHUB_PR_URL")
+		baseRef = os.Getenv("GITHUB_BASE_REF")
+		headRef = os.Getenv("GITHUB_HEAD_REF")
 	}
 
 	messengerType := ""
@@ -81,21 +85,21 @@ func InitApp(env string) error {
 	if messengerType == "slack" {
 		components.SlackClient = slack.NewSlack(webhook)
 	}
-	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl)
+	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, baseRef, headRef)
 
 	return nil
 }
 
-func LoadParamsFromJson() (string, string, string, string, string, string, string, string, string, string, string, string, string, string, string, error) {
+func LoadParamsFromJson() (string, string, string, string, string, string, string, string, string, string, string, string, string, string, string, string, string, error) {
 	data, err := os.ReadFile("local.json")
 	if err != nil {
-		return "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", err
+		return "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", err
 	}
 
 	var env GitHubActionsParam
 	err = json.Unmarshal(data, &env)
 	if err != nil {
-		return "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", err
+		return "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", err
 	}
 
 	webhook := env.Webhook
@@ -113,6 +117,8 @@ func LoadParamsFromJson() (string, string, string, string, string, string, strin
 	commitMsg := env.CommitMsg
 	prTitle := env.PrTitle
 	prUrl := env.PrUrl
+	baseRef := env.BaseRef
+	headRef := env.HeadRef
 
-	return webhook, repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, nil
+	return webhook, repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, baseRef, headRef, nil
 }
