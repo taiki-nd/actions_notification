@@ -11,10 +11,8 @@ jobs:
   do-notification:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v3
       - name: Checkout code
         uses: actions/checkout@v3
-        shell: bash
 
       - name: Print current directory
         run: pwd
