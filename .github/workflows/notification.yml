@@ -15,7 +15,7 @@ jobs:
 
       - name: Run action
         if: Always()
-        run: go run cmd/main.go
+        run: go run main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_STATUS: ${{ job.status }}
@@ -25,7 +25,7 @@ jobs:
 
       - name: Run action
         if: Always()
-        run: go run cmd/main.go
+        run: go run main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_STATUS: "failure"
@@ -35,7 +35,7 @@ jobs:
 
       - name: Run action
         if: Always()
-        run: go run cmd/main.go
+        run: go run main.go
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           GITHUB_STATUS: "cancelled"

@@ -14,22 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Print current directory
-        run: pwd
-        shell: bash
-
-      - name: List directory contents
-        run: ls -la
-        shell: bash
-
-      - name: List directory contents of cmd
-        run: ls -la cmd/
-        shell: bash
-
-      - name: Show go.mod file
-        run: cat go.mod
-        shell: bash
-
       - name: Run action
         if: Always()
         uses: taiki-nd/actions_notification@v0.0.10
