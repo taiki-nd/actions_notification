@@ -27,7 +27,7 @@ runs:
       shell: bash
 
     - name: Run action
-      run: go run ${{ github.action_path }}/cmd/main.go
+      run: go run ${{ github.action_path }}/main.go
       shell: bash
       env:
         WEBHOOK_URL: ${{ inputs.webhook }}
