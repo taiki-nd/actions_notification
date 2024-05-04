@@ -28,9 +28,7 @@ runs:
     - name: Move to action directory and check
       run: |
         cd ${{ github.action_path }}
-        pwd
-        ls -la
-        go mod init github.com/taiki-nd/actions_notification
+        go mod download
         go mod tidy
       shell: bash
 
