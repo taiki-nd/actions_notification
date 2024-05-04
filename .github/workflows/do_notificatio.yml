@@ -12,7 +12,9 @@ inputs:
     description: "Discord webhook endpoint."
     required: true
 
-runs:
+jobs:
+  do-notification:
+  runs-on: ubuntu-latest
   using: "composite"
   steps:
     - name: Checkout code
