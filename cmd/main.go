@@ -1,10 +1,11 @@
 package main
 
 import (
-	"actionsnotification/app"
-	"actionsnotification/app/services"
 	"fmt"
 	"os"
+
+	"github.com/taiki-nd/actions_notification/app"
+	"github.com/taiki-nd/actions_notification/app/services"
 )
 
 func main() {

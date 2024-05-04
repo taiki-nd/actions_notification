@@ -1,17 +1,17 @@
 package app
 
 import (
-	"actionsnotification/app/config"
-	"actionsnotification/app/module/discord"
-	"actionsnotification/app/module/githubActions"
-	"actionsnotification/app/module/slack"
-	"actionsnotification/app/services/components"
 	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/k0kubun/pp/v3"
+	"github.com/taiki-nd/actions_notification/app/config"
+	"github.com/taiki-nd/actions_notification/app/module/discord"
+	"github.com/taiki-nd/actions_notification/app/module/githubActions"
+	"github.com/taiki-nd/actions_notification/app/module/slack"
+	"github.com/taiki-nd/actions_notification/app/services/components"
 )
 
 var MessageApp string

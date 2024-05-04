@@ -1,6 +1,6 @@
 package githubActions
 
-import "actionsnotification/app/core/consts"
+import "github.com/taiki-nd/actions_notification/app/core/consts"
 
 type GithubActionsClient struct {
 	GithubRepository string

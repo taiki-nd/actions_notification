@@ -1,6 +1,6 @@
 package components
 
-import "actionsnotification/app/module/githubActions"
+import "github.com/taiki-nd/actions_notification/app/module/githubActions"
 
 var GithubActionsClient *githubActions.GithubActionsClient
 

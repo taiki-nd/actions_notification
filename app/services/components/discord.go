@@ -1,8 +1,6 @@
 package components
 
 import (
-	"actionsnotification/app/module/discord"
-	"actionsnotification/app/module/utils"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -10,6 +8,8 @@ import (
 	"time"
 
 	"github.com/k0kubun/pp/v3"
+	"github.com/taiki-nd/actions_notification/app/module/discord"
+	"github.com/taiki-nd/actions_notification/app/module/utils"
 )
 
 var DiscordClient *discord.DiscordClient

@@ -1,8 +1,8 @@
 package services
 
 import (
-	"actionsnotification/app/config"
-	"actionsnotification/app/services/components"
+	"github.com/taiki-nd/actions_notification/app/config"
+	"github.com/taiki-nd/actions_notification/app/services/components"
 )
 
 func SendMessage() error {
