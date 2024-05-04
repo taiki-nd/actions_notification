@@ -7,15 +7,9 @@ on:
     branches:
       - main
 
-inputs:
-  webhook:
-    description: "Discord webhook endpoint."
-    required: true
-
 jobs:
   do-notification:
   runs-on: ubuntu-latest
-  using: "composite"
   steps:
     - name: Checkout code
       uses: actions/checkout@v3
