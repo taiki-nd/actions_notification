@@ -59,25 +59,24 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	pp.Println(actionsInfo)
 
 	var color string
-	if actionsInfo.GithubActionsStatus.IsFailure() {
+	if actionsInfo.GithubJobStatus.IsFailure() {
 		color = "16711680"
 	}
-	if actionsInfo.GithubActionsStatus.IsSuccess() {
-		// 緑
+	if actionsInfo.GithubJobStatus.IsSuccess() {
 		color = "65280"
 	}
-	if actionsInfo.GithubActionsStatus.IsCancelled() {
+	if actionsInfo.GithubJobStatus.IsCancelled() {
 		color = "16776960"
 	}
 
 	// set discord request
 	discordComponent.WebhookUrl = DiscordClient.WebhookUrl
-	discordComponent.DiscordReq.Username = "ActionsNotification"
+	discordComponent.DiscordReq.Username = actionsInfo.GithubRepository
 	discordComponent.DiscordReq.AvatarURL = ""
 	discordComponent.DiscordReq.Content = ""
 
 	var embeds Embeds
-	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubActionsStatus.IconValue(), actionsInfo.GithubRepository)
+	embeds.Title = fmt.Sprintf("%s: %s", actionsInfo.GithubJobStatus.IconValue(), actionsInfo.GithubRepository)
 	embeds.Description = fmt.Sprintf("by %s", actionsInfo.GithubActor)
 	embeds.Timestamp = time.Now()
 	embeds.Color = color
@@ -86,7 +85,7 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 	var fields []Field
 	workField := Field{
 		Name:   "Workflow",
-		Value:  fmt.Sprintf("[%s](<%s/%s/actions/workflows/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
+		Value:  fmt.Sprintf("[%s](<%s/%s/actions/runs/%s>)", actionsInfo.GithubWorkflow, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubRunId),
 		Inline: true,
 	}
 	repoField := Field{
@@ -94,22 +93,31 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		Value:  fmt.Sprintf("[%s](<%s/%s>)", actionsInfo.GithubRepository, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository),
 		Inline: true,
 	}
-	braField := Field{
-		Name:   "Branch",
-		Value:  actionsInfo.GithubBranch,
-		Inline: true,
+	var braField Field
+	if actionsInfo.GithubEventName.IsPullRequest() {
+		braField = Field{
+			Name:   "Branch",
+			Value:  actionsInfo.GitHubHeadRef,
+			Inline: true,
+		}
+	} else {
+		braField = Field{
+			Name:   "Branch",
+			Value:  actionsInfo.GithubBranch,
+			Inline: true,
+		}
 	}
 	var eveField Field
 	if actionsInfo.GithubEventName.IsPullRequest() {
 		eveField = Field{
 			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
-			Value:  fmt.Sprintf("PR URL: [%s](<%s>)", actionsInfo.GitHubActionsPrTitle, actionsInfo.GitHubActionsPrUrl),
+			Value:  fmt.Sprintf("PR URL: [%s](<%s>)\n`%s` <- `%s`", actionsInfo.GitHubPrTitle, actionsInfo.GitHubPrUrl, actionsInfo.GitHubBaseRef, actionsInfo.GitHubHeadRef),
 			Inline: false,
 		}
 	} else {
 		eveField = Field{
-			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName),
-			Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubActionsCommitMsg),
+			Name:   fmt.Sprintf("Event (%s)", actionsInfo.GithubEventName.UPPERValue()),
+			Value:  fmt.Sprintf("[%s](<%s/%s/commit/%s>): %s", utils.GetPrefix(actionsInfo.GithubSha, 7), actionsInfo.GithubServerUrl, actionsInfo.GithubRepository, actionsInfo.GithubSha, actionsInfo.GithubCommitMsg),
 			Inline: false,
 		}
 	}
