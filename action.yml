@@ -11,6 +11,7 @@ runs:
   using: "composite"
   steps:
     - run: go run cmd/main.go
+      shell: bash
       env:
         WEBHOOK_URL: ${{ inputs.webhook }}
         GITHUB_ACTIONS_STATUS: ${{ job.status }}
