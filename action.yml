@@ -8,6 +8,22 @@ inputs:
     required: true
 
 runs:
+
+  - name: Checkout code
+    uses: actions/checkout@v3
+
+  - name: Print current directory
+    run: pwd
+
+  - name: List directory contents
+    run: ls -la
+
+  - name: List directory contents of cmd
+    run: ls -la cmd/
+
+  - name: Show go.mod file
+    run: cat go.mod
+
   using: "composite"
   steps:
     - run: go run ${{ github.action_path }}/cmd/main.go
