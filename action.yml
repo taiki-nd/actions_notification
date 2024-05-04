@@ -30,7 +30,8 @@ runs:
         cd ${{ github.action_path }}
         pwd
         ls -la
-        go mod download
+        go mod init github.com/taiki-nd/actions_notification
+        go mod tidy
       shell: bash
 
     - name: Run action

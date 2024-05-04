@@ -6,7 +6,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/k0kubun/pp/v3"
 	"github.com/taiki-nd/actions_notification/app/config"
 	"github.com/taiki-nd/actions_notification/app/module/discord"
 	"github.com/taiki-nd/actions_notification/app/module/githubActions"
@@ -88,8 +87,6 @@ func InitApp(env string) error {
 		components.SlackClient = slack.NewSlack(webhook)
 	}
 	components.GithubActionsClient = githubActions.NewGithubActions(repo, sha, ref, actor, workflow, eventName, workSpace, branch, runId, serverUrl, status, commitMsg, prTitle, prUrl, baseRef, headRef)
-
-	pp.Println(components.GithubActionsClient)
 
 	return nil
 }

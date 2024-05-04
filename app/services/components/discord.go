@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/k0kubun/pp/v3"
 	"github.com/taiki-nd/actions_notification/app/module/discord"
 	"github.com/taiki-nd/actions_notification/app/module/utils"
 )
@@ -56,7 +55,6 @@ type Field struct {
 
 func (discordComponent *DiscordComponent) MakeRequest() {
 	actionsInfo := GithubActions.GetGithubActionsInfo()
-	pp.Println(actionsInfo)
 
 	var color string
 	if actionsInfo.GithubJobStatus.IsFailure() {
