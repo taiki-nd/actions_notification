@@ -1,4 +1,4 @@
-name: "Actions Status Discord"
+name: "Actions Status Notifier"
 description: "Post Github Actions CI status to Discord"
 author: "taiki-nd"
 
