@@ -93,10 +93,19 @@ func (discordComponent *DiscordComponent) MakeRequest() {
 		Value:  fmt.Sprintf("[%s](<%s/%s>)", actionsInfo.GithubRepository, actionsInfo.GithubServerUrl, actionsInfo.GithubRepository),
 		Inline: true,
 	}
-	braField := Field{
-		Name:   "Branch",
-		Value:  actionsInfo.GithubBranch,
-		Inline: true,
+	var braField Field
+	if actionsInfo.GithubEventName.IsPullRequest() {
+		braField = Field{
+			Name:   "Branch",
+			Value:  actionsInfo.GitHubHeadRef,
+			Inline: true,
+		}
+	} else {
+		braField = Field{
+			Name:   "Branch",
+			Value:  actionsInfo.GithubBranch,
+			Inline: true,
+		}
 	}
 	var eveField Field
 	if actionsInfo.GithubEventName.IsPullRequest() {
